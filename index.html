@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUJI ROCK FESTIVAL '26 Countdown</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            /* グリーンステージ風の夜の画像を背景に指定し、上に暗いオーバーレイを重ねる */
+            background-image:
+                linear-gradient(to bottom, rgba(10, 10, 26, 0.7), rgba(26, 15, 46, 0.8)),
+                url('bg.png');
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* レーザー光線のアニメーション装飾 */
+        .laser-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .laser {
+            position: absolute;
+            bottom: -10%;
+            left: 50%;
+            width: 3px;
+            height: 150vh;
+            background: linear-gradient(to top, rgba(0, 255, 255, 1), rgba(0, 255, 255, 0));
+            box-shadow: 0 0 15px 3px rgba(0, 255, 255, 0.7);
+            transform-origin: bottom center;
+            opacity: 0.6;
+        }
+
+        .laser.magenta {
+            background: linear-gradient(to top, rgba(255, 0, 128, 1), rgba(255, 0, 128, 0));
+            box-shadow: 0 0 15px 3px rgba(255, 0, 128, 0.7);
+        }
+
+        /* レーザーの動き（回転と明滅） */
+        .laser1 {
+            transform: rotate(-45deg);
+            animation: sweep1 6s infinite ease-in-out alternate;
+        }
+
+        .laser2 {
+            transform: rotate(45deg);
+            animation: sweep2 8s infinite ease-in-out alternate;
+        }
+
+        .laser3 {
+            left: 40%;
+            transform: rotate(-20deg);
+            animation: sweep3 5s infinite ease-in-out alternate;
+        }
+
+        .laser4 {
+            left: 60%;
+            transform: rotate(20deg);
+            animation: sweep4 7s infinite ease-in-out alternate;
+        }
+
+        @keyframes sweep1 {
+            0% {
+                transform: rotate(-50deg);
+                opacity: 0.2;
+            }
+
+            100% {
+                transform: rotate(-20deg);
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes sweep2 {
+            0% {
+                transform: rotate(50deg);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: rotate(20deg);
+                opacity: 0.2;
+            }
+        }
+
+        @keyframes sweep3 {
+            0% {
+                transform: rotate(-30deg);
+                opacity: 0.4;
+            }
+
+            100% {
+                transform: rotate(-10deg);
+                opacity: 0.9;
+            }
+        }
+
+        @keyframes sweep4 {
+            0% {
+                transform: rotate(30deg);
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: rotate(10deg);
+                opacity: 0.4;
+            }
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow:
+                0 0 5px #ff003c,
+                0 0 10px #ff003c,
+                0 0 20px #ff003c,
+                0 0 40px #ff5500;
+            z-index: 10;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px #000;
+            z-index: 10;
+        }
+
+        .countdown-container {
+            display: flex;
+            gap: 20px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 100px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            /* ガラスのようなぼかし効果 */
+        }
+
+        .number {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 5rem;
+            font-weight: bold;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: #0ff;
+            text-shadow:
+                0 0 5px #0ff,
+                0 0 10px #0ff,
+                0 0 20px #0ff;
+        }
+
+        .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ccc;
+            text-shadow: 0 0 3px #000;
+        }
+
+        #event-started {
+            display: none;
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow:
+                0 0 10px #ff00ff,
+                0 0 20px #ff00ff,
+                0 0 40px #ff00ff,
+                0 0 80px #ff00ff;
+            animation: pulse 1.5s infinite alternate;
+            z-index: 10;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- レーザーアニメーション用のコンテナ -->
+    <div class="laser-container">
+        <div class="laser laser1 magenta"></div>
+        <div class="laser laser2"></div>
+        <div class="laser laser3"></div>
+        <div class="laser laser4 magenta"></div>
+    </div>
+
+    <div class="subtitle">GET READY FOR</div>
+    <div class="title">Fuji Rock Festival '26</div>
+
+    <div class="countdown-container" id="countdown-container">
+        <div class="time-box">
+            <div class="number" id="days">00</div>
+            <div class="label">Days</div>
+        </div>
+        <div class="time-box">
+            <div class="number" id="hours">00</div>
+            <div class="label">Hours</div>
+        </div>
+        <div class="time-box">
+            <div class="number" id="minutes">00</div>
+            <div class="label">Mins</div>
+        </div>
+        <div class="time-box">
+            <div class="number" id="seconds">00</div>
+            <div class="label">Secs</div>
+        </div>
+    </div>
+
+    <div id="event-started">NOW PLAYING!</div>
+
+    <script>
+        const targetDate = new Date("2026-07-24T09:00:00+09:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const daysNode = document.getElementById("days");
+            const hoursNode = document.getElementById("hours");
+            const minutesNode = document.getElementById("minutes");
+            const secondsNode = document.getElementById("seconds");
+            const containerNode = document.getElementById("countdown-container");
+            const startedNode = document.getElementById("event-started");
+
+            if (distance < 0) {
+                containerNode.style.display = "none";
+                document.querySelector('.subtitle').style.display = "none";
+                startedNode.style.display = "block";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysNode.textContent = String(days).padStart(2, '0');
+            hoursNode.textContent = String(hours).padStart(2, '0');
+            minutesNode.textContent = String(minutes).padStart(2, '0');
+            secondsNode.textContent = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+
+</html>
