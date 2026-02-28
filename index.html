@@ -215,6 +215,57 @@
                 transform: scale(1.05);
             }
         }
+
+        /* レスポンシブ対応 (スマホ向け) */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+                margin-bottom: 1.5rem;
+                text-align: center;
+                padding: 0 10px;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .countdown-container {
+                gap: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 0 10px;
+            }
+
+            .time-box {
+                padding: 10px;
+                min-width: 70px;
+            }
+
+            .number {
+                font-size: 2.5rem;
+            }
+
+            .label {
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+            }
+
+            #event-started {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .time-box {
+                min-width: 60px;
+                padding: 8px;
+            }
+
+            .number {
+                font-size: 2rem;
+            }
+        }
     </style>
 </head>
 
