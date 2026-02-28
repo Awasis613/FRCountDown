@@ -206,6 +206,26 @@
             z-index: 10;
         }
 
+        /* ゴンちゃん画像グループ（各ボックスの中に配置） */
+        .gonchan-group {
+            margin-top: 10px;
+            height: 55px;
+            /* 複数並ぶので少し横長に対応 */
+            width: auto;
+            animation: sway 4s infinite ease-in-out alternate;
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+        }
+
+        @keyframes sway {
+            0% {
+                transform: rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(5deg);
+            }
+        }
+
         @keyframes pulse {
             0% {
                 transform: scale(1);
@@ -285,18 +305,26 @@
         <div class="time-box">
             <div class="number" id="days">00</div>
             <div class="label">Days</div>
+            <img src="gon_chan_2_trans.png" alt="Gon-chan 2" class="gonchan-group" style="animation-delay: 0s;">
         </div>
         <div class="time-box">
             <div class="number" id="hours">00</div>
             <div class="label">Hours</div>
+            <img src="gon_chan_3_trans.png" alt="Gon-chan 3" class="gonchan-group" style="animation-delay: 0.5s;">
         </div>
         <div class="time-box">
             <div class="number" id="minutes">00</div>
             <div class="label">Mins</div>
+            <!-- 少し反転させて別の石のように見せます -->
+            <img src="gon_chan_2_trans.png" alt="Gon-chan 2" class="gonchan-group"
+                style="animation-delay: 1s; animation-direction: alternate-reverse;">
         </div>
         <div class="time-box">
             <div class="number" id="seconds">00</div>
             <div class="label">Secs</div>
+            <!-- 反転させて別の石のように見せます -->
+            <img src="gon_chan_3_trans.png" alt="Gon-chan 3" class="gonchan-group"
+                style="animation-delay: 1.5s; animation-direction: alternate-reverse;">
         </div>
     </div>
 
